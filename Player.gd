@@ -2,10 +2,10 @@ extends KinematicBody
 
 const GRAVITY = -75
 var vel = Vector3()
-const MAX_SPEED = 200
+const MAX_SPEED = 100
 const JUMP_SPEED = 50
 const ACCEL = 5
-
+#var vel MAX_SPEED = _ changes the player movement speed of the player. 
 var dir = Vector3()
 
 const DEACCEL= 16
@@ -16,7 +16,7 @@ var rotation_helper
 
 var MOUSE_SENSITIVITY = 0.75
 
-const MAX_SPRINT_SPEED = 30
+const MAX_SPRINT_SPEED = 200
 const SPRINT_ACCEL = 18
 var is_sprinting = false
 
@@ -25,6 +25,7 @@ var flashlight
 func _ready():
 	camera = $Rotation_Helper/Camera
 	rotation_helper = $Rotation_Helper
+	flashlight = $Rotation_Helper/Flashlight
 
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
@@ -49,6 +50,23 @@ func process_input(delta):
 		input_movement_vector.x -= 1
 	if Input.is_action_pressed("movement_right"):
 		input_movement_vector.x += 1
+	
+	# ----------------------------------
+	# Sprinting
+	if Input.is_action_pressed("movement_sprint"):
+		is_sprinting = true
+	else:
+		is_sprinting = false
+	# ----------------------------------
+	
+	# ----------------------------------
+	# Turning the flashlight on/off
+	if Input.is_action_just_pressed("flashlight"):
+		if flashlight.is_visible_in_tree():
+			flashlight.hide()
+		else:
+			flashlight.show()
+	# ----------------------------------
 
 	input_movement_vector = input_movement_vector.normalized()
 
@@ -83,11 +101,18 @@ func process_movement(delta):
 	hvel.y = 0
 
 	var target = dir
-	target *= MAX_SPEED
-
+	if is_sprinting:
+		target *= MAX_SPRINT_SPEED
+	else:
+		target *= MAX_SPEED
+	
 	var accel
 	if dir.dot(hvel) > 0:
-		accel = ACCEL
+		if is_sprinting:
+			accel = SPRINT_ACCEL
+		else:
+			accel = ACCEL
+
 	else:
 		accel = DEACCEL
 
@@ -104,6 +129,9 @@ func _input(event):
 		var camera_rot = rotation_helper.rotation_degrees
 		camera_rot.x = clamp(camera_rot.x, -70, 70)
 		rotation_helper.rotation_degrees = camera_rot
+
+
+
 
 var animation_manager
 

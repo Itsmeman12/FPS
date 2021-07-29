@@ -364,7 +364,7 @@ tracks/34/interp = 1
 tracks/34/loop_wrap = true
 tracks/34/imported = true
 tracks/34/enabled = true
-tracks/34/keys = PoolRealArray( 0, 1, 1.19209e-07, -1.14739e-06, -1.04308e-07, 1.11759e-08, 2.23517e-08, -9.31323e-10, 1, 1, 1, 1, 0.0416667, 1, 1.19209e-07, -1.14739e-06, -1.04308e-07, 1.11759e-08, 2.23517e-08, -9.31323e-10, 1, 1, 1, 1 )
+tracks/34/keys = PoolRealArray( 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0.1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1 )
 tracks/35/type = "method"
 tracks/35/path = NodePath("Animation_Player")
 tracks/35/interp = 1
@@ -372,9 +372,12 @@ tracks/35/loop_wrap = true
 tracks/35/imported = false
 tracks/35/enabled = true
 tracks/35/keys = {
-"times": PoolRealArray(  ),
-"transitions": PoolRealArray(  ),
-"values": [  ]
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "animation_callback"
+} ]
 }
 
 [sub_resource type="Animation" id=8]
