@@ -111,8 +111,9 @@ func animation_ended(anim_name):
 		set_animation("Rifle_idle")
 
 func animation_callback():
+	print(callback_function)
 	if callback_function == null:
 		print ("AnimationPlayer_Manager.gd -- WARNING: No callback function for the animation to call!")
 	else:
 		callback_function.call_func()
-
+		

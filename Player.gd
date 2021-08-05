@@ -40,7 +40,7 @@ func _ready():
 	rotation_helper = $Rotation_Helper
 
 	animation_manager = $Rotation_Helper/Model/Animation_Player
-	#animation_manager.callback_function = funcref(self, "fire_bullet")
+	animation_manager.callback_function = funcref(self, "fire_bullet")
 
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
@@ -236,6 +236,5 @@ func _input(event):
 func fire_bullet():
 	if changing_weapon == true:
 		return
-
-	print(current_weapon_name)
+		print(current_weapon_name)
 	weapons[current_weapon_name].fire_weapon()
