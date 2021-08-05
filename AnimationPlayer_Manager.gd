@@ -56,7 +56,7 @@ func set_animation(animation_name):
 		return true
 
 
-	if has_animation(animation_name):
+	if has_animation(animation_name) == true:
 		if current_state != null:
 			var possible_animations = states[current_state]
 			if animation_name in possible_animations:
@@ -102,7 +102,7 @@ func animation_ended(anim_name):
 	elif current_state == "Rifle_equip":
 		set_animation("Rifle_idle")
 	elif current_state == "Rifle_idle":
-		pass
+		pass;
 	elif current_state == "Rifle_fire":
 		set_animation("Rifle_idle")
 	elif current_state == "Rifle_unequip":
@@ -111,9 +111,7 @@ func animation_ended(anim_name):
 		set_animation("Rifle_idle")
 
 func animation_callback():
-	print(callback_function)
 	if callback_function == null:
 		print ("AnimationPlayer_Manager.gd -- WARNING: No callback function for the animation to call!")
 	else:
 		callback_function.call_func()
-		

@@ -1,12 +1,12 @@
 extends KinematicBody
 
-const GRAVITY = -100
+const GRAVITY = -24.8
 var vel = Vector3()
-const MAX_SPEED = 100
-const JUMP_SPEED = 100
+const MAX_SPEED = 20
+const JUMP_SPEED = 18
 const ACCEL= 4.5
 
-const MAX_SPRINT_SPEED = 200
+const MAX_SPRINT_SPEED = 30
 const SPRINT_ACCEL = 18
 var is_sprinting = false
 
@@ -20,7 +20,7 @@ const MAX_SLOPE_ANGLE = 40
 var camera
 var rotation_helper
 
-var MOUSE_SENSITIVITY = 0.5
+var MOUSE_SENSITIVITY = 0.05
 
 var animation_manager
 
@@ -236,5 +236,5 @@ func _input(event):
 func fire_bullet():
 	if changing_weapon == true:
 		return
-		print(current_weapon_name)
+
 	weapons[current_weapon_name].fire_weapon()
