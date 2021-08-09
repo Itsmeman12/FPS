@@ -1,13 +1,16 @@
 extends KinematicBody
 
-const GRAVITY = -24.8
+const GRAVITY = -100
 var vel = Vector3()
-const MAX_SPEED = 20
-const JUMP_SPEED = 18
-const ACCEL= 4.5
+const MAX_SPEED = 100
+#const MAX_SPEED = _ is how to value to change the default speed of the player. 
+const JUMP_SPEED = 50
+#const JUMP_SPEED = _ is the value of how high the player can jump.
+const ACCEL= 5
 
-const MAX_SPRINT_SPEED = 30
-const SPRINT_ACCEL = 18
+const MAX_SPRINT_SPEED = 200
+#The comst MAX_SPRINT_SPEED = _ is how the player speeeds up after pressing the assigned button to make the character faster.
+const SPRINT_ACCEL = 50
 var is_sprinting = false
 
 var flashlight
@@ -20,8 +23,8 @@ const MAX_SLOPE_ANGLE = 40
 var camera
 var rotation_helper
 
-var MOUSE_SENSITIVITY = 0.05
-
+var MOUSE_SENSITIVITY = 0.5
+#var MOUSE_SENSITIVITY = _ is the line of code to change how fast the character turns in any direction. 
 var animation_manager
 
 var current_weapon_name = "UNARMED"

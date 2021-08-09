@@ -1,5 +1,5 @@
 extends AnimationPlayer
-
+#The script below is how the animation player tells the player to switch animation when shooting or is unarmed.
 # Structure -> Animation name :[Connecting Animation states]
 var states = {
 	"Idle_unarmed":["Knife_equip", "Pistol_equip", "Rifle_equip", "Idle_unarmed"],

@@ -1,6 +1,7 @@
 extends Spatial
 
-var BULLET_SPEED = 70
+var BULLET_SPEED = 150
+#var BULLET_SPEED = _ is the variable to change the speed of the bullet when fired.
 var BULLET_DAMAGE = 15
 
 const KILL_TIMER = 4
