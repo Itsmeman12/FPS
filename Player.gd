@@ -1,5 +1,6 @@
 extends KinematicBody
-
+#var simple_audio_player = preload("res://Simple_Audio_Player.tscn")
+var reloading_weapon = false
 const GRAVITY = -100
 var vel = Vector3()
 const MAX_SPEED = 100
@@ -70,6 +71,8 @@ func _physics_process(delta):
 	process_input(delta)
 	process_movement(delta)
 	process_changing_weapons(delta)
+	process_reloading(delta)
+	process_UI(delta)
 
 func process_input(delta):
 
@@ -147,22 +150,47 @@ func process_input(delta):
 		weapon_change_number -= 1
 	
 	weapon_change_number = clamp(weapon_change_number, 0, WEAPON_NUMBER_TO_NAME.size()-1)
-	
-	if changing_weapon == false:
-		if WEAPON_NUMBER_TO_NAME[weapon_change_number] != current_weapon_name:
-			changing_weapon_name = WEAPON_NUMBER_TO_NAME[weapon_change_number]
-			changing_weapon = true
-	# ----------------------------------
-	
-	# ----------------------------------
-	# Firing the weapons
+#
+
+# ----------------------------------
+# Firing the weapons
 	if Input.is_action_pressed("fire"):
+		if reloading_weapon == false:
+			if changing_weapon == false:
+				var current_weapon = weapons[current_weapon_name]
+				if current_weapon != null:
+					if current_weapon.ammo_in_weapon > 0:
+						if animation_manager.current_state == current_weapon.IDLE_ANIM_NAME:
+							animation_manager.set_animation(current_weapon.FIRE_ANIM_NAME)
+					else:
+						reloading_weapon = true
+# ----------------------------------
+	if changing_weapon == false:
+	# New line of code here!
+		if reloading_weapon == false:
+			if WEAPON_NUMBER_TO_NAME[weapon_change_number] != current_weapon_name:
+				changing_weapon_name = WEAPON_NUMBER_TO_NAME[weapon_change_number]
+				changing_weapon = true
+
+# ----------------------------------
+# Reloading
+# Reloading
+	if reloading_weapon == false:
 		if changing_weapon == false:
-			var current_weapon = weapons[current_weapon_name]
-			if current_weapon != null:
-				if animation_manager.current_state == current_weapon.IDLE_ANIM_NAME:
-					animation_manager.set_animation(current_weapon.FIRE_ANIM_NAME)
-	# ----------------------------------
+			if Input.is_action_just_pressed("reload"):
+				var current_weapon = weapons[current_weapon_name]
+				if current_weapon != null:
+					if current_weapon.CAN_RELOAD == true:
+						var current_anim_state = animation_manager.current_state
+						var is_reloading = false
+						for weapon in weapons:
+							var weapon_node = weapons[weapon]
+							if weapon_node != null:
+								if current_anim_state == weapon_node.RELOADING_ANIM_NAME:
+									is_reloading = true
+						if is_reloading == false:
+							reloading_weapon = true
+# ----------------------------------
 
 func process_movement(delta):
 	dir.y = 0
@@ -227,6 +255,8 @@ func process_changing_weapons(delta):
 				changing_weapon_name = ""
 
 
+
+
 func _input(event):
 	if event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 		rotation_helper.rotate_x(deg2rad(event.relative.y * MOUSE_SENSITIVITY))
@@ -241,3 +271,24 @@ func fire_bullet():
 		return
 
 	weapons[current_weapon_name].fire_weapon()
+
+func process_UI(delta):
+	if current_weapon_name == "UNARMED" or current_weapon_name == "KNIFE":
+		UI_status_label.text = "HEALTH: " + str(health)
+	else:
+		var current_weapon = weapons[current_weapon_name]
+		UI_status_label.text = "HEALTH: " + str(health) + \
+				"\nAMMO: " + str(current_weapon.ammo_in_weapon) + "/" + str(current_weapon.spare_ammo)
+
+func process_reloading(delta):
+	if reloading_weapon == true:
+		var current_weapon = weapons[current_weapon_name]
+		if current_weapon != null:
+			current_weapon.reload_weapon()
+		reloading_weapon = false
+		
+#func create_sound(sound_name, position=null):
+	#var audio_clone = simple_audio_player.instance()
+	#var scene_root = get_tree().root.get_children()[0]
+	#scene_root.add_child(audio_clone)
+	#audio_clone.play_sound(sound_name, position)

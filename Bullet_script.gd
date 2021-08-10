@@ -1,6 +1,6 @@
 extends Spatial
 
-var BULLET_SPEED = 150
+var BULLET_SPEED = 300
 #var BULLET_SPEED = _ is the variable to change the speed of the bullet when fired.
 var BULLET_DAMAGE = 15
 
@@ -26,6 +26,6 @@ func collided(body):
 	if hit_something == false:
 		if body.has_method("bullet_hit"):
 			body.bullet_hit(BULLET_DAMAGE, global_transform)
-
+#The piece of code above tells the object being hit it will maove or take damage. 
 	hit_something = true
 	queue_free()
